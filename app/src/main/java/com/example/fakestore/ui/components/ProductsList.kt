@@ -14,6 +14,7 @@ import com.example.fakestore.data.model.Product
 fun ProductsList(
     products: List<Product>,
     paddingValues: PaddingValues = PaddingValues(0.dp),
+    onProductClick: (Int) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -27,7 +28,7 @@ fun ProductsList(
 
             ) {
             items(products.count()) { index ->
-                ProductItem(product = products[index])
+                ProductItem(product = products[index], onProductClick = onProductClick)
             }
         }
     }

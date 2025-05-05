@@ -12,19 +12,19 @@ sealed class BottomNavItem(
     val icon: ImageVector
 ) {
     data object Home : BottomNavItem(
-        route = "home",
+        route = AppDestinations.HOME_ROUTE,
         title = "Home",
         icon = Icons.Default.Home
     )
 
     data object Cart : BottomNavItem(
-        route = "cart",
+        route = AppDestinations.CART_ROUTE,
         title = "Cart",
         icon = Icons.Default.ShoppingCart
     )
 
     data object Profile : BottomNavItem(
-        route = "profile",
+        route = AppDestinations.PROFILE_ROUTE,
         title = "Profile",
         icon = Icons.Default.Person
     )

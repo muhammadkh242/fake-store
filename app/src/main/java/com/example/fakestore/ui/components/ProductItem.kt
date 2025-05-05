@@ -1,5 +1,6 @@
 package com.example.fakestore.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -39,11 +40,11 @@ import com.example.fakestore.R
 import com.example.fakestore.data.model.Product
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(product: Product, onProductClick: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .clickable { },
+            .clickable { onProductClick(product.id) },
         shape = RoundedCornerShape(size = 8.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
@@ -96,7 +97,9 @@ fun ProductItem(product: Product) {
             }
 
             Text(
-                modifier = Modifier.padding(horizontal = 8.dp).height(48.dp),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .height(48.dp),
                 text = product.title,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,

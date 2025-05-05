@@ -17,6 +17,7 @@ import com.example.fakestore.ui.viewModels.HomeViewModel
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     paddingValues: PaddingValues = PaddingValues(0.dp),
+    onProductClick: (Int) -> Unit,
 
     ) {
     val productsState by viewModel.productsState.collectAsState()
@@ -32,7 +33,7 @@ fun HomeScreen(
 
         is BaseUIState.Success -> {
             val products = (productsState as BaseUIState.Success).data
-            ProductsList(products)
+            ProductsList(products, onProductClick = onProductClick)
         }
     }
 

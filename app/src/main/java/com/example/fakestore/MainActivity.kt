@@ -1,4 +1,5 @@
 package com.example.fakestore
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.fakestore.navigation.AppDestinations
 import com.example.fakestore.navigation.AppNavHost
 import com.example.fakestore.navigation.BottomNavItem
 import com.example.fakestore.ui.theme.FakeStoreTheme
@@ -46,30 +48,38 @@ fun MainScreen() {
         BottomNavItem.Cart,
         BottomNavItem.Profile
     )
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    val showBottomBar = when (currentRoute) {
+        AppDestinations.HOME_ROUTE,
+        AppDestinations.CART_ROUTE,
+        AppDestinations.PROFILE_ROUTE -> true
+
+        else -> false
+    }
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentRoute = navBackStackEntry?.destination?.route
+            if (showBottomBar)
+                NavigationBar {
 
-                items.forEach { item ->
-                    NavigationBarItem(
-                        icon = { Icon(item.icon, contentDescription = item.title) },
-                        label = { Text(text = item.title) },
-                        selected = currentRoute == item.route,
-                        onClick = {
-                            navController.navigate(item.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                    items.forEach { item ->
+                        NavigationBarItem(
+                            icon = { Icon(item.icon, contentDescription = item.title) },
+                            label = { Text(text = item.title) },
+                            selected = currentRoute == item.route,
+                            onClick = {
+                                navController.navigate(item.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
                             }
-                        }
-                    )
+                        )
+                    }
                 }
-            }
         }
     ) { innerPadding ->
         Box(

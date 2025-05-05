@@ -96,9 +96,11 @@ fun ProductItem(product: Product) {
             }
 
             Text(
-                modifier = Modifier.padding(horizontal = 8.dp),
+                modifier = Modifier.padding(horizontal = 8.dp).height(48.dp),
                 text = product.title,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
             )
             Text(
                 modifier = Modifier.padding(start = 8.dp, end = 8.dp),

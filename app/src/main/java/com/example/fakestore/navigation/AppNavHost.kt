@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.fakestore.ui.screens.CartScreen
 import com.example.fakestore.ui.screens.HomeScreen
-import com.example.fakestore.ui.screens.HomeScreenWithDataPreview
 import com.example.fakestore.ui.screens.ProfileScreen
 
 @Composable
@@ -16,7 +15,7 @@ fun AppNavHost(navController: NavHostController) {
         startDestination = BottomNavItem.Home.route
     ) {
         composable(route = BottomNavItem.Home.route) {
-            HomeScreenWithDataPreview()
+            HomeScreen()
         }
         composable(route = BottomNavItem.Cart.route) {
             CartScreen()

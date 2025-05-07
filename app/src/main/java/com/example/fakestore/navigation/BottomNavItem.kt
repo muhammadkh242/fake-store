@@ -1,6 +1,7 @@
 package com.example.fakestore.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -27,5 +28,11 @@ sealed class BottomNavItem(
         route = AppDestinations.PROFILE_ROUTE,
         title = "Profile",
         icon = Icons.Default.Person
+    )
+
+    data object Favorite : BottomNavItem(
+        route = AppDestinations.Favorite_ROUTE,
+        title = "Favorite",
+        icon = Icons.Default.Favorite
     )
 }

@@ -77,7 +77,7 @@ fun ProductDetailsContent(product: Product, onNavigateUp: () -> Unit) {
                     )
                 ) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack,
+                        painter = painterResource(R.drawable.ic_arrow_back),
                         contentDescription = "Back",
                         tint = Color.Black
                     )
@@ -161,7 +161,7 @@ fun ProductDetailsContent(product: Product, onNavigateUp: () -> Unit) {
 
             )
 
-            Row (verticalAlignment = Alignment.CenterVertically){
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Quantity")
                 Spacer(modifier = Modifier.width(16.dp))
                 CartQuantityView()

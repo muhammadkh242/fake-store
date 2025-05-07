@@ -45,14 +45,16 @@ fun MainScreen() {
 
     val items = listOf(
         BottomNavItem.Home,
+        BottomNavItem.Favorite,
         BottomNavItem.Cart,
-        BottomNavItem.Profile
+        BottomNavItem.Profile,
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val showBottomBar = when (currentRoute) {
         AppDestinations.HOME_ROUTE,
         AppDestinations.CART_ROUTE,
+        AppDestinations.Favorite_ROUTE,
         AppDestinations.PROFILE_ROUTE -> true
 
         else -> false

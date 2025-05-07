@@ -19,4 +19,19 @@ class StoreRepository @Inject constructor(private val apiService: ApiService) {
             return Result.failure(e)
         }
     }
+
+    suspend fun getProductDetails(id: Int): Result<Product> {
+        try {
+            val response = apiService.getProductDetails(id)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return Result.success(it)
+                }
+            }
+            return Result.failure(Exception("Error: ${response.code()} ${response.message()}"))
+
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
 }

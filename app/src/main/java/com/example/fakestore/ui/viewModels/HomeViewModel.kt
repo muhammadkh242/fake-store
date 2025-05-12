@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fakestore.data.model.Product
+import com.example.fakestore.data.model.Rating
 import com.example.fakestore.data.repository.StoreRepository
 import com.example.fakestore.ui.states.BaseUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,6 +27,7 @@ class HomeViewModel @Inject constructor(private val storeRepository: StoreReposi
     }
 
     private fun getAllProducts() {
+
         viewModelScope.launch {
             storeRepository.getAllProducts().fold(
                 onSuccess = {

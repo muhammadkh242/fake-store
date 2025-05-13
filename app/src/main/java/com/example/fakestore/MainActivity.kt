@@ -51,11 +51,13 @@ fun MainScreen() {
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
     val showBottomBar = when (currentRoute) {
-        AppDestinations.HOME_ROUTE,
-        AppDestinations.CART_ROUTE,
-        AppDestinations.Favorite_ROUTE,
-        AppDestinations.PROFILE_ROUTE -> true
+        AppDestinations.HOME_GRAPH_ROUTE,
+        AppDestinations.HOME_SCREEN_ROUTE,
+        AppDestinations.CART_SCREEN_ROUTE,
+        AppDestinations.FAVORITE_SCREEN_ROUTE,
+        AppDestinations.PROFILE_SCREEN_ROUTE -> true
 
         else -> false
     }
@@ -69,7 +71,17 @@ fun MainScreen() {
                         NavigationBarItem(
                             icon = { Icon(item.icon, contentDescription = item.title) },
                             label = { Text(text = item.title) },
-                            selected = currentRoute == item.route,
+                            selected = if (item == BottomNavItem.Home) {
+                                currentRoute == AppDestinations.HOME_GRAPH_ROUTE ||
+                                        currentRoute == AppDestinations.HOME_SCREEN_ROUTE ||
+                                        currentRoute?.startsWith(
+                                            AppDestinations.PRODUCT_DETAILS_ROUTE.split(
+                                                '/'
+                                            ).first()
+                                        ) == true
+                            } else {
+                                currentRoute == item.route
+                            },
                             onClick = {
                                 navController.navigate(item.route) {
                                     popUpTo(navController.graph.findStartDestination().id) {

@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.example.fakestore.ui.screens.CartScreen
 import com.example.fakestore.ui.screens.FavoriteScreen
@@ -16,34 +17,41 @@ import com.example.fakestore.ui.screens.ProfileScreen
 fun AppNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = BottomNavItem.Home.route
+        startDestination = AppDestinations.HOME_GRAPH_ROUTE
     ) {
-        composable(route = BottomNavItem.Home.route) {
-            HomeScreen(
-                onProductClick = { id ->
-                    navController.navigate(AppDestinations.productDetailsRoute(id))
-                }
-            )
+        navigation(
+            startDestination = AppDestinations.HOME_SCREEN_ROUTE,
+            route = AppDestinations.HOME_GRAPH_ROUTE,
+        ) {
+            composable(route = AppDestinations.HOME_SCREEN_ROUTE) {
+                HomeScreen(
+                    onProductClick = { id ->
+                        navController.navigate(AppDestinations.productDetailsRoute(id))
+                    }
+                )
+            }
+            composable(
+                route = AppDestinations.PRODUCT_DETAILS_ROUTE,
+                arguments = listOf(navArgument("productId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val productId = backStackEntry.arguments?.getInt("productId") ?: 1
+                ProductDetailsScreen(
+                    productId = productId,
+                    onNavigateUp = { navController.navigateUp() }
+                )
+            }
         }
-        composable(route = BottomNavItem.Cart.route) {
+
+        composable(route = AppDestinations.CART_SCREEN_ROUTE) {
             CartScreen()
         }
-        composable(route = BottomNavItem.Profile.route) {
+        composable(route = AppDestinations.PROFILE_SCREEN_ROUTE) {
             ProfileScreen()
         }
-        composable(route = BottomNavItem.Favorite.route) {
+        composable(route = AppDestinations.FAVORITE_SCREEN_ROUTE) {
             FavoriteScreen()
         }
-        composable(
-            route = AppDestinations.PRODUCT_DETAILS_ROUTE,
-            arguments = listOf(navArgument("productId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val productId = backStackEntry.arguments?.getInt("productId") ?: 1
-            ProductDetailsScreen(
-                productId = productId,
-                onNavigateUp = { navController.navigateUp() }
-            )
-        }
+
 
     }
 }

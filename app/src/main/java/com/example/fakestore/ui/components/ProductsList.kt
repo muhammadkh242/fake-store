@@ -9,12 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.fakestore.data.model.Product
+import com.example.fakestore.ui.viewModels.FavoriteViewModel
 
 @Composable
 fun ProductsList(
     products: List<Product>,
     paddingValues: PaddingValues = PaddingValues(0.dp),
     onProductClick: (Int) -> Unit,
+    favoriteViewModel: FavoriteViewModel,
 ) {
     Box(
         modifier = Modifier
@@ -28,7 +30,15 @@ fun ProductsList(
 
             ) {
             items(products.count()) { index ->
-                ProductItem(product = products[index], onProductClick = onProductClick)
+                ProductItem(
+                    product = products[index], onProductClick = onProductClick,
+                    favoriteStateFlow = favoriteViewModel.getFavoriteStateFlow(products[index].id),
+                    onFavoriteChange = {
+                        favoriteViewModel.toggleFavorite(
+                            products[index].id, products[index], it
+                        )
+                    }
+                )
             }
         }
     }

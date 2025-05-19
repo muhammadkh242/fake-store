@@ -1,6 +1,5 @@
 package com.example.fakestore.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,8 +15,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -27,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,12 +36,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.example.fakestore.R
 import com.example.fakestore.data.model.Product
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun ProductItem(product: Product, onProductClick: (Int) -> Unit) {
+fun ProductItem(
+    product: Product,
+    onProductClick: (Int) -> Unit,
+    favoriteStateFlow: StateFlow<Boolean>,
+    onFavoriteChange: (Boolean) -> Unit,
+) {
+    val isFavorite by favoriteStateFlow.collectAsStateWithLifecycle()
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -72,10 +81,14 @@ fun ProductItem(product: Product, onProductClick: (Int) -> Unit) {
                 IconButton(
                     modifier = Modifier
                         .align(Alignment.TopEnd),
-                    onClick = {}
+                    onClick = { onFavoriteChange(isFavorite) }
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.FavoriteBorder,
+                        imageVector = if (isFavorite) {
+                            Icons.Filled.Favorite
+                        } else {
+                            Icons.Outlined.FavoriteBorder
+                        },
                         contentDescription = "favorite",
                         tint = Color.Red,
                     )

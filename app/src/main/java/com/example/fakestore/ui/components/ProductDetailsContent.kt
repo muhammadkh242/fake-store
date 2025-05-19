@@ -17,10 +17,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
@@ -29,19 +29,28 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.example.fakestore.R
 import com.example.fakestore.data.model.Product
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun ProductDetailsContent(product: Product, onNavigateUp: () -> Unit) {
+fun ProductDetailsContent(
+    product: Product,
+    onNavigateUp: () -> Unit,
+    favoriteStateFlow: StateFlow<Boolean>,
+    onFavoriteChange: (Boolean) -> Unit,
+) {
     val scrollState = rememberScrollState()
+    val isFavorite by favoriteStateFlow.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -84,15 +93,19 @@ fun ProductDetailsContent(product: Product, onNavigateUp: () -> Unit) {
                 }
                 Row {
                     FilledIconButton(
-                        onClick = { /* Handle back navigation */ },
+                        onClick = { onFavoriteChange(isFavorite) },
                         colors = IconButtonDefaults.filledIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.background
                         )
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Favorite,
-                            contentDescription = "Back",
-                            tint = Color.Black
+                            imageVector = if (isFavorite) {
+                                Icons.Filled.Favorite
+                            } else {
+                                Icons.Outlined.FavoriteBorder
+                            },
+                            contentDescription = "Favorite",
+                            tint = Color.Red
                         )
                     }
                     FilledIconButton(

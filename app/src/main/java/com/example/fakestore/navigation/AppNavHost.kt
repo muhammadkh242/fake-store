@@ -1,6 +1,7 @@
 package com.example.fakestore.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -12,6 +13,8 @@ import com.example.fakestore.ui.screens.FavoriteScreen
 import com.example.fakestore.ui.screens.HomeScreen
 import com.example.fakestore.ui.screens.ProductDetailsScreen
 import com.example.fakestore.ui.screens.ProfileScreen
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.fakestore.ui.viewModels.FavoriteViewModel
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -23,11 +26,17 @@ fun AppNavHost(navController: NavHostController) {
             startDestination = AppDestinations.HOME_SCREEN_ROUTE,
             route = AppDestinations.HOME_GRAPH_ROUTE,
         ) {
-            composable(route = AppDestinations.HOME_SCREEN_ROUTE) {
+
+            composable(route = AppDestinations.HOME_SCREEN_ROUTE) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(AppDestinations.HOME_GRAPH_ROUTE)
+                }
+                val favoriteViewModel = hiltViewModel<FavoriteViewModel>(parentEntry)
                 HomeScreen(
                     onProductClick = { id ->
                         navController.navigate(AppDestinations.productDetailsRoute(id))
-                    }
+                    },
+                    favoriteViewModel = favoriteViewModel,
                 )
             }
             composable(
@@ -35,9 +44,14 @@ fun AppNavHost(navController: NavHostController) {
                 arguments = listOf(navArgument("productId") { type = NavType.IntType })
             ) { backStackEntry ->
                 val productId = backStackEntry.arguments?.getInt("productId") ?: 1
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(AppDestinations.HOME_GRAPH_ROUTE)
+                }
+                val favoriteViewModel = hiltViewModel<FavoriteViewModel>(parentEntry)
                 ProductDetailsScreen(
                     productId = productId,
-                    onNavigateUp = { navController.navigateUp() }
+                    onNavigateUp = { navController.navigateUp() },
+                    favoriteViewModel = favoriteViewModel,
                 )
             }
         }

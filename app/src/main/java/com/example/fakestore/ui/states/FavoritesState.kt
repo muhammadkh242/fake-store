@@ -8,21 +8,24 @@ import kotlinx.coroutines.flow.asStateFlow
 class FavoritesState {
     private val _favoriteMap = mutableMapOf<Int, Product>()
     private val _favoriteStateFlows = mutableMapOf<Int, MutableStateFlow<Boolean>>()
-
-    val favorites: List<Product> get() = _favoriteMap.values.toList()
+    private  val _favoriteListStateFlow = MutableStateFlow<List<Product>>(value = emptyList())
+    val favoriteListState: StateFlow<List<Product>> = _favoriteListStateFlow.asStateFlow()
 
     fun getFavoriteStateFlow(productId: Int): StateFlow<Boolean> {
-        val result = _favoriteStateFlows.getOrPut(productId) {
+        return _favoriteStateFlows.getOrPut(productId) {
             MutableStateFlow(_favoriteMap.containsKey(productId))
         }.asStateFlow()
-        return result
     }
+
 
     fun toggleFavorite(productId: Int, product: Product) {
         if (_favoriteMap.containsKey(productId)) {
             removeFromFavorite(productId)
+            updateFavoriteListState(product, false)
         } else {
             addToFavorite(productId, product)
+            updateFavoriteListState(product, true)
+
         }
     }
 
@@ -48,6 +51,7 @@ class FavoritesState {
         favorites.forEach {
             _favoriteMap[it.id] = it
             updateFavoriteState(it.id, true)
+            updateFavoriteListState(it, true)
         }
     }
 
@@ -57,5 +61,21 @@ class FavoritesState {
         if (favStateFlow != null) {
             favStateFlow.value = isFavorite
         }
+    }
+
+    private fun updateFavoriteListState(product: Product, isFavorite: Boolean) {
+        if (isFavorite) {
+            val updatedList = _favoriteListStateFlow.value.toMutableList().apply {
+                add(product)
+            }
+            _favoriteListStateFlow.value = updatedList
+
+        } else {
+            val updatedList = _favoriteListStateFlow.value.toMutableList().apply {
+                remove(product)
+            }
+            _favoriteListStateFlow.value = updatedList
+        }
+
     }
 }

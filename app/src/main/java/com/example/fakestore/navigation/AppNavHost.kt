@@ -63,7 +63,13 @@ fun AppNavHost(navController: NavHostController) {
             ProfileScreen()
         }
         composable(route = AppDestinations.FAVORITE_SCREEN_ROUTE) {
-            FavoriteScreen()
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(AppDestinations.HOME_GRAPH_ROUTE)
+            }
+            val favoriteViewModel = hiltViewModel<FavoriteViewModel>(parentEntry)
+            FavoriteScreen(onProductClick = { id ->
+                navController.navigate(AppDestinations.productDetailsRoute(id))
+            }, favoriteViewModel = favoriteViewModel)
         }
 
 

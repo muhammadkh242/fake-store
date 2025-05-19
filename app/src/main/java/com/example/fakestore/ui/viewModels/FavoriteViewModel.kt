@@ -15,6 +15,7 @@ import javax.inject.Inject
 class FavoriteViewModel @Inject constructor(private val storeRepository: StoreRepository) :
     ViewModel() {
     private val favoritesState = FavoritesState()
+    val favoriteProductsState: StateFlow<List<Product>> = favoritesState.favoriteListState
 
     init {
         viewModelScope.launch {
@@ -23,7 +24,6 @@ class FavoriteViewModel @Inject constructor(private val storeRepository: StoreRe
         }
     }
 
-    val favorites: List<Product> get() = favoritesState.favorites
 
     fun getFavoriteStateFlow(productId: Int): StateFlow<Boolean> {
         return favoritesState.getFavoriteStateFlow(productId)
@@ -36,7 +36,6 @@ class FavoriteViewModel @Inject constructor(private val storeRepository: StoreRe
                 storeRepository.removeProductFromFavorites(product)
             }
         } else {
-
             viewModelScope.launch {
                 storeRepository.addProductToFavorites(product)
             }

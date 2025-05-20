@@ -86,6 +86,11 @@ dependencies {
     implementation(libs.androidx.room.ktx.v261)
     ksp(libs.androidx.room.compiler)
 
+    //data store
+    implementation(libs.androidx.datastore.preferences)
+
+
+
 }
 kapt {
     correctErrorTypes = true

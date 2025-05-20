@@ -42,6 +42,8 @@ fun HomeScreen(
                 favoriteViewModel = favoriteViewModel,
             )
         }
+
+        BaseUIState.Initial -> TODO()
     }
 
 }

@@ -49,5 +49,7 @@ fun ProductDetailsScreen(
                 },
             )
         }
+
+        BaseUIState.Initial -> TODO()
     }
 }

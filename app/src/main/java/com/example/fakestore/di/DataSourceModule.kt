@@ -1,5 +1,7 @@
 package com.example.fakestore.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.example.fakestore.data.datasource.local.LocalDataSource
 import com.example.fakestore.data.datasource.local.ProductsDao
 import dagger.Module
@@ -14,7 +16,12 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(productsDao: ProductsDao): LocalDataSource {
-        return LocalDataSource(productsDao)
+    fun provideLocalDataSource(
+        productsDao: ProductsDao,
+        dataStore: DataStore<Preferences>
+    ): LocalDataSource {
+        return LocalDataSource(productsDao, dataStore)
     }
+
+
 }

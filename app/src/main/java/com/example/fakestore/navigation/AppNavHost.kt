@@ -14,6 +14,8 @@ import com.example.fakestore.ui.screens.HomeScreen
 import com.example.fakestore.ui.screens.ProductDetailsScreen
 import com.example.fakestore.ui.screens.ProfileScreen
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.fakestore.ui.screens.LoginScreen
+import com.example.fakestore.ui.screens.SignupScreen
 import com.example.fakestore.ui.viewModels.FavoriteViewModel
 
 @Composable
@@ -70,6 +72,9 @@ fun AppNavHost(navController: NavHostController) {
             FavoriteScreen(onProductClick = { id ->
                 navController.navigate(AppDestinations.productDetailsRoute(id))
             }, favoriteViewModel = favoriteViewModel)
+        }
+        composable(route = AppDestinations.LOGIN_SCREEN_ROUTE) {
+            LoginScreen()
         }
 
 

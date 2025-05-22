@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,15 +30,21 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.fakestore.data.model.UserData
 import com.example.fakestore.ui.states.BaseUIState
 import com.example.fakestore.ui.viewModels.LoginViewModel
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel()) {
+fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel(), navigateToHome: () -> Unit) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val loginState by loginViewModel.loginState.collectAsState()
+    LaunchedEffect(loginState) {
+        if (loginState is BaseUIState.Success) {
+            navigateToHome()
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize(),

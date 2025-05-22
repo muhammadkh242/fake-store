@@ -8,7 +8,9 @@ import com.example.fakestore.data.model.Product
 import com.example.fakestore.data.model.UserData
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(
@@ -34,6 +36,26 @@ class LocalDataSource @Inject constructor(
         } catch (e: Exception) {
             null
         }
+    }
+
+    fun getUserDataFlow(): Flow<Result<UserData?>> {
+        return dataStore.data
+            .map { preferences ->
+                try {
+                    val userJson = preferences[USER_KEY]
+                    if (userJson == null) {
+                        Result.success(null)
+                    } else {
+                        val userData = gson.fromJson(userJson, UserData::class.java)
+                        Result.success(userData)
+                    }
+                } catch (e: Exception) {
+                    Result.failure(e)
+                }
+            }
+            .catch { error ->
+                emit(Result.failure(error))
+            }
     }
 
     suspend fun insertFavoriteProduct(product: Product) {

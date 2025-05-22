@@ -8,7 +8,7 @@ object AppDestinations {
     const val PROFILE_SCREEN_ROUTE = "profile_screen"
     const val FAVORITE_SCREEN_ROUTE = "favorite_screen"
     const val LOGIN_SCREEN_ROUTE = "login_screen"
-    const val SIGNUP_SCREEN_ROUTE = "signup_screen"
+    const val SPLASH_SCREEN_ROUTE = "splash_screen"
 
     const val PRODUCT_DETAILS_ROUTE = "product_details/{productId}"
 

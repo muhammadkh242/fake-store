@@ -2,6 +2,7 @@ package com.example.fakestore.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -11,18 +12,17 @@ import androidx.navigation.navArgument
 import com.example.fakestore.ui.screens.CartScreen
 import com.example.fakestore.ui.screens.FavoriteScreen
 import com.example.fakestore.ui.screens.HomeScreen
+import com.example.fakestore.ui.screens.LoginScreen
 import com.example.fakestore.ui.screens.ProductDetailsScreen
 import com.example.fakestore.ui.screens.ProfileScreen
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.fakestore.ui.screens.LoginScreen
-import com.example.fakestore.ui.screens.SignupScreen
+import com.example.fakestore.ui.screens.SplashScreen
 import com.example.fakestore.ui.viewModels.FavoriteViewModel
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = AppDestinations.HOME_GRAPH_ROUTE
+        startDestination = AppDestinations.SPLASH_SCREEN_ROUTE
     ) {
         navigation(
             startDestination = AppDestinations.HOME_SCREEN_ROUTE,
@@ -74,7 +74,31 @@ fun AppNavHost(navController: NavHostController) {
             }, favoriteViewModel = favoriteViewModel)
         }
         composable(route = AppDestinations.LOGIN_SCREEN_ROUTE) {
-            LoginScreen()
+            LoginScreen(navigateToHome = {
+                navController.navigate(AppDestinations.HOME_GRAPH_ROUTE) {
+                    popUpTo(
+                        AppDestinations.SPLASH_SCREEN_ROUTE
+                    ) { inclusive = true }
+                }
+            })
+        }
+        composable(route = AppDestinations.SPLASH_SCREEN_ROUTE) {
+            SplashScreen(
+                navigateToLogin = {
+                    navController.navigate(AppDestinations.LOGIN_SCREEN_ROUTE) {
+                        popUpTo(
+                            AppDestinations.SPLASH_SCREEN_ROUTE
+                        ) { inclusive = true }
+                    }
+                },
+                navigateToHome = {
+                    navController.navigate(AppDestinations.HOME_GRAPH_ROUTE) {
+                        popUpTo(
+                            AppDestinations.SPLASH_SCREEN_ROUTE
+                        ) { inclusive = true }
+                    }
+                }
+            )
         }
 
 

@@ -89,4 +89,8 @@ class StoreRepository @Inject constructor(
         return localDataSource.isProductFavorite(productId)
     }
 
+    fun getUserDataFlow(): Flow<Result<UserData?>> {
+        return localDataSource.getUserDataFlow()
+    }
+
 }

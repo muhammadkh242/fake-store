@@ -2,6 +2,10 @@ package com.example.fakestore.di
 
 import com.example.fakestore.data.datasource.remote.ApiService
 import com.example.fakestore.data.datasource.remote.ApiUrl
+import com.example.fakestore.data.datasource.remote.UserDataDeserializer
+import com.example.fakestore.data.model.UserData
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,8 +40,16 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create()
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .registerTypeAdapter(UserData::class.java, UserDataDeserializer())
+            .create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideConverterFactory(gson: Gson): Converter.Factory {
+        return GsonConverterFactory.create(gson)
     }
 
     @Singleton

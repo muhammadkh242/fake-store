@@ -1,5 +1,6 @@
 package com.example.fakestore.ui.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fakestore.data.model.Product
@@ -18,6 +19,7 @@ class FavoriteViewModel @Inject constructor(private val storeRepository: StoreRe
     val favoriteProductsState: StateFlow<List<Product>> = favoritesState.favoriteListState
 
     init {
+        Log.i("FavoriteViewModel", ": FavoriteViewModel")
         viewModelScope.launch {
             val savedFavorites = storeRepository.getFavoriteProducts()
             favoritesState.setFavorites(savedFavorites.firstOrNull() ?: emptyList())

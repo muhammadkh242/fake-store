@@ -1,5 +1,6 @@
 package com.example.fakestore.data.repository
 
+import android.util.Log
 import com.example.fakestore.data.datasource.local.LocalDataSource
 import com.example.fakestore.data.datasource.remote.ApiService
 import com.example.fakestore.data.model.Product
@@ -29,6 +30,7 @@ class StoreRepository @Inject constructor(
             )
             if (response.isSuccessful) {
                 response.body()?.let {
+                    Log.i("StoreRepository", "login: $it")
                     return Result.success(it)
                 }
             }

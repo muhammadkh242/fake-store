@@ -17,6 +17,7 @@ import com.example.fakestore.ui.screens.ProductDetailsScreen
 import com.example.fakestore.ui.screens.ProfileScreen
 import com.example.fakestore.ui.screens.SplashScreen
 import com.example.fakestore.ui.viewModels.FavoriteViewModel
+import com.example.fakestore.ui.viewModels.UserViewModel
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -28,7 +29,6 @@ fun AppNavHost(navController: NavHostController) {
             startDestination = AppDestinations.HOME_SCREEN_ROUTE,
             route = AppDestinations.HOME_GRAPH_ROUTE,
         ) {
-
             composable(route = AppDestinations.HOME_SCREEN_ROUTE) { backStackEntry ->
                 val parentEntry = remember(backStackEntry) {
                     navController.getBackStackEntry(AppDestinations.HOME_GRAPH_ROUTE)

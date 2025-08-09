@@ -18,11 +18,11 @@ sealed class BottomNavItem(
         icon = Icons.Default.Home
     )
 
-    data object Cart : BottomNavItem(
+/*    data object Cart : BottomNavItem(
         route = AppDestinations.CART_SCREEN_ROUTE,
         title = "Cart",
         icon = Icons.Default.ShoppingCart
-    )
+    )*/
 
     data object Profile : BottomNavItem(
         route = AppDestinations.PROFILE_SCREEN_ROUTE,

@@ -109,14 +109,14 @@ fun ProductDetailsContent(
                         )
                     }
                     FilledIconButton(
-                        onClick = { /* Handle back navigation */ },
+                        onClick = { /* Handle share navigation */ },
                         colors = IconButtonDefaults.filledIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.background
                         )
                     ) {
                         Icon(
                             imageVector = Icons.Default.Share,
-                            contentDescription = "Back",
+                            contentDescription = "Share",
                             tint = Color.Black
                         )
                     }

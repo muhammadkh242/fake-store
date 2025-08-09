@@ -1,0 +1,60 @@
+package com.example.fakestore.ui.components
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.material3.Text
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+
+
+@Composable
+fun PersonalInfoCard(firstName: String, lastName: String, phone: String) {
+
+    Card(modifier = Modifier) {
+        Column(modifier = Modifier.padding(all = 16.dp)) {
+            Text("Personal Information", style = MaterialTheme.typography.titleMedium)
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
+            HorizontalDivider()
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
+            Row {
+                Column {
+                    Text("First Name: ", style = MaterialTheme.typography.labelMedium)
+                    Spacer(
+                        modifier = Modifier.height(8.dp)
+                    )
+                    Text("Last Name: ", style = MaterialTheme.typography.labelMedium)
+                    Spacer(
+                        modifier = Modifier.height(8.dp)
+                    )
+                    Text("Phone: ", style = MaterialTheme.typography.labelMedium)
+                }
+                Spacer(
+                    modifier = Modifier.width(16.dp)
+                )
+                Column {
+                    Text(firstName, style = MaterialTheme.typography.labelMedium)
+                    Spacer(
+                        modifier = Modifier.height(8.dp)
+                    )
+                    Text(lastName, style = MaterialTheme.typography.labelMedium)
+                    Spacer(
+                        modifier = Modifier.height(8.dp)
+                    )
+                    Text(phone, style = MaterialTheme.typography.labelMedium)
+                }
+            }
+        }
+    }
+}

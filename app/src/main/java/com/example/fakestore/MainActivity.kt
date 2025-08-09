@@ -46,7 +46,6 @@ fun MainScreen() {
     val items = listOf(
         BottomNavItem.Home,
         BottomNavItem.Favorite,
-        BottomNavItem.Cart,
         BottomNavItem.Profile,
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()

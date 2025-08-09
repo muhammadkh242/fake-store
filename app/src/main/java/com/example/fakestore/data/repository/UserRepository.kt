@@ -50,5 +50,20 @@ class UserRepository @Inject constructor(
         localDataSource.saveUserData(userData)
     }
 
+    suspend fun getUserProfile(id: Int): Result<UserData> {
+        try {
+            val response = apiService.getUserProfile(id)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return Result.success(it)
+                }
+            }
+            return Result.failure(Exception("Error: ${response.code()} ${response.message()}"))
+
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
 
 }

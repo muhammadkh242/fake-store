@@ -40,7 +40,7 @@ class ProductsRepository @Inject constructor(
             val response = apiService.getCartProducts(id)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    return Result.success(it)
+                    return Result.success(it.products)
                 }
             }
             return Result.failure(Exception("Error: ${response.code()} ${response.message()}"))

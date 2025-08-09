@@ -9,4 +9,12 @@ data class UserData(
     val username: String?,
     @SerializedName("token")
     val token: String?,
+    @SerializedName("address")
+    val userAddress: UserAddress?,
+    @SerializedName("uname")
+    val userName: UserName,
+    @SerializedName("email")
+    val email: String?,
+    @SerializedName("phone")
+    val phone: String?,
 )

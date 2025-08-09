@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CartProduct(
     @SerializedName("productId")
-    val title: String,
+    val productId: String,
     @SerializedName("quantity")
-    val price: Int,
+    val quantity: Int,
 )

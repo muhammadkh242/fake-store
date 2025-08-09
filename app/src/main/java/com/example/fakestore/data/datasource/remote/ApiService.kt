@@ -1,7 +1,7 @@
 package com.example.fakestore.data.datasource.remote
 
-import com.example.fakestore.data.model.CartProduct
 import com.example.fakestore.data.model.Product
+import com.example.fakestore.data.model.UserCart
 import com.example.fakestore.data.model.UserData
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,5 +21,8 @@ interface ApiService {
     suspend fun login(@Body data: Map<String, String>): Response<UserData>
 
     @GET("/carts/{id}")
-    suspend fun getCartProducts(@Path("id") id: Int): Response<List<CartProduct>>
+    suspend fun getCartProducts(@Path("id") id: Int): Response<UserCart>
+
+    @GET("/users/{id}")
+    suspend fun getUserProfile(@Path("id") id: Int): Response<UserData>
 }

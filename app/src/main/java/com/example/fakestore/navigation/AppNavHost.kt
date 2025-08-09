@@ -17,7 +17,6 @@ import com.example.fakestore.ui.screens.ProductDetailsScreen
 import com.example.fakestore.ui.screens.ProfileScreen
 import com.example.fakestore.ui.screens.SplashScreen
 import com.example.fakestore.ui.viewModels.FavoriteViewModel
-import com.example.fakestore.ui.viewModels.UserViewModel
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -62,7 +61,7 @@ fun AppNavHost(navController: NavHostController) {
             CartScreen()
         }
         composable(route = AppDestinations.PROFILE_SCREEN_ROUTE) {
-            ProfileScreen()
+            ProfileScreen(onNavigateUp = { navController.navigateUp() })
         }
         composable(route = AppDestinations.FAVORITE_SCREEN_ROUTE) {
             val parentEntry = remember(it) {

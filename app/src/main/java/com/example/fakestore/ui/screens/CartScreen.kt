@@ -1,25 +1,35 @@
 package com.example.fakestore.ui.screens
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.fakestore.ui.components.LoadingView
+import com.example.fakestore.ui.states.BaseUIState
 import com.example.fakestore.ui.viewModels.CartViewModel
 
 @Composable
 fun CartScreen(viewModel: CartViewModel = hiltViewModel()) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Cart Screen",
-            style = MaterialTheme.typography.headlineLarge
-        )
+    val productsState by viewModel.productsState.collectAsState()
+    when (productsState) {
+        is BaseUIState.Loading -> {
+            LoadingView()
+
+        }
+
+        is BaseUIState.Error -> {
+            val errorState = productsState as BaseUIState.Error
+            Text("Error")
+        }
+
+        is BaseUIState.Success -> {
+            val products = (productsState as BaseUIState.Success).data
+            Text("$products")
+        }
+
+        BaseUIState.Initial -> TODO()
+
     }
+
 }
